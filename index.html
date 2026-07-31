@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Nareshuu! ❤️</title>
+  <style>
+    :root {
+      --bg-color: #fdf2f4;
+      --card-bg: #ffffff;
+      --primary: #ff5c8d;
+      --primary-hover: #e04875;
+      --text-dark: #4a3e43;
+      --accent-blue: #38bdf8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+
+    /* Screen Wrapper */
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 15px 35px rgba(255, 92, 141, 0.12);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+      position: relative;
+    }
+
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, h2 {
+      font-family: 'Georgia', serif;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    p.subtitle {
+      color: #88787f;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(255, 92, 141, 0.3);
+      margin: 5px;
+    }
+
+    .btn:hover { background: var(--primary-hover); transform: scale(1.03); }
+    .btn-secondary { background: #e2e8f0; color: #64748b; box-shadow: none; }
+
+    /* Screen 1: Welcome */
+    .hero-img { width: 180px; margin: 15px auto; display: block; }
+
+    /* Screen 2: Balloons */
+    .balloon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .balloon {
+      font-size: 3.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      user-select: none;
+    }
+
+    .balloon:hover { transform: scale(1.1); }
+
+    .revealed-text {
+      font-family: 'Georgia', serif;
+      font-size: 1.6rem;
+      color: var(--primary);
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Screen 3: Candle Cake */
+    .cake-container {
+      position: relative;
+      margin: 30px auto;
+      width: 140px;
+    }
+
+    .cake { font-size: 6rem; line-height: 1; }
+    .flame {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      animation: flicker 0.8s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; transform: translateX(-50%) scale(1); }
+      100% { opacity: 0.7; transform: translateX(-50%) scale(0.85); }
+    }
+
+    /* Screen 4: Bouquet */
+    .bouquet-img {
+      width: 200px;
+      margin: 20px auto;
+    }
+
+    /* Screen 5: Love Letter Envelope */
+    .envelope {
+      width: 220px;
+      height: 140px;
+      background: #fbcfe8;
+      margin: 30px auto;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid #f472b6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope:hover { transform: scale(1.05); }
+
+    .letter-paper {
+      display: none;
+      background: #fff0f5;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px dashed var(--primary);
+      text-align: left;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-top: 15px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    /* Screen 6: Gift Box */
+    .gift-box {
+      font-size: 5rem;
+      cursor: pointer;
+      margin: 20px 0;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- SCREEN 1: WELCOME -->
+  <div class="screen active" id="screen1">
+    <h1>Happy Birthday,<br>NARESHUU ❤️</h1>
+    <div class="hero-img">🧸🎂🐼</div>
+    <p class="subtitle">You are my favorite</p>
+    <button class="btn" onclick="nextScreen(2)">Yes</button>
+    <button class="btn btn-secondary" onclick="alert('Wrong button! Try clicking Yes 😜')">No</button>
+  </div>
+
+  <!-- SCREEN 2: BALLOONS -->
+  <div class="screen" id="screen2">
+    <h2>Pop all 4 balloons 🎈</h2>
+    <div class="balloon-grid">
+      <div class="balloon" id="b1" onclick="popBalloon(1, 'You')">💖</div>
+      <div class="balloon" id="b2" onclick="popBalloon(2, 'are')">💙</div>
+      <div class="balloon" id="b3" onclick="popBalloon(3, 'so')">💚</div>
+      <div class="balloon" id="b4" onclick="popBalloon(4, 'special')">💜</div>
+    </div>
+    <div class="revealed-text" id="revealedMessage"></div>
+    <button class="btn" id="btnBalloonNext" style="display:none; margin-top:20px;" onclick="nextScreen(3)">Continue 👉</button>
+  </div>
+
+  <!-- SCREEN 3: CAKE & CANDLE -->
+  <div class="screen" id="screen3">
+    <h2 id="candleTitle">Blow the candle, Bujjuluu 🦋</h2>
+    <div class="cake-container">
+      <div class="flame" id="candleFlame">🔥</div>
+      <div class="cake">🎂</div>
+    </div>
+    <button class="btn" id="blowBtn" onclick="blowCandle()">Tap to blow the candle 🕯️</button>
+    <button class="btn" id="candleNext" style="display:none;" onclick="nextScreen(4)">Continue 👉</button>
+  </div>
+
+  <!-- SCREEN 4: ROSES -->
+  <div class="screen" id="screen4">
+    <h2>Your Rose Bouquet 🌹</h2>
+    <div class="bouquet-img">💐</div>
+    <p class="subtitle">A fresh bouquet for my favorite person in the world!</p>
+    <button class="btn" onclick="nextScreen(5)">Continue 👉</button>
+  </div>
+
+  <!-- SCREEN 5: LOVE LETTER -->
+  <div class="screen" id="screen5">
+    <h2>A Message From My Heart</h2>
+    <p class="subtitle" id="letterSub">Tap the envelope to open</p>
+
+    <div class="envelope" id="envelopeObj" onclick="openLetter()">💌</div>
+
+    <div class="letter-paper" id="letterPaper">
+      <p><strong>Happy Birthday Bujjuluu♥️🦋💃</strong></p><br>
+      <p>Niku okati ceppali adhi adhi I love you🙈, nv ante first lo antha istam undedhoo antha excite ayye dhanno same eppudu kuda alane unna appitiki alane unta. Adhi appitiki maradhuu. Nv anukovachuu manam kakapotha inkokaru ani Kani ninnu avaru replace cheyyaleruu. Ninnu istapadi thechukunna na life loki ala vadhilestha anukunavv, appudu elane nitho godava paduthu tiduthu nitho undipothaa raa.</p><br>
+      <p>Niku oka vishayam ceppana godava padinappudu call cheyyavu msg cheyyavu antav kadhaa Kani andhukoo teliyadhu manam godava padinappudu akkuva gurthuvasthav ni calls, msgs kosam wait chesthu unta, nv calls msga chesinappudu chinna smile vasthadi na face lo Kani nitho matladeappudu kopam gane matladatha andhukuu ante nv nannu appdudu baga adukuntav adhi naku istam. Nv na kosam efforts petti ye chinna pani chesi adhe thaluchukuntuu murisipothaa.</p><br>
+      <p>Nijam cepthuna na life nitho unnapudu unna happiness excitement care love inka appudu chudaledhuu, ninnu love chesinantha ninnu chuskunantha inka avarini chusukolaa. Nenu mondidhanne Kani ardhamchesukuntee chala baga chsukuntaa. Ela ni midha naku unna prema cepthunte inka pothane untadhii. Manam pelli chesukovalii life ni enjoy chalu inka happy ga brathikesthaa.</p><br>
+      <p>I love you so much nana♥️😩😘🙈.... Nv lekunte nenu entha happy ga undedhani kadhuu, nene e position lo undedhani kadhuu, evvani experience chese Dhani kadhuu... Thank you so much for existing in my life🥹🤗. Manaki Anni godavalu vachina nv nathone undalii sare naa.</p><br>
+      <p>Migilinavi call lo cepthaa🤪🫣.</p><br>
+      <p style="text-align: right;"><strong>Premathoo<br>Ni pellam nandhu.</strong></p>
+    </div>
+
+    <button class="btn" id="letterNext" style="display:none; margin-top:20px;" onclick="nextScreen(6)">Continue 👉</button>
+  </div>
+
+  <!-- SCREEN 6: GIFT & REPLAY -->
+  <div class="screen" id="screen6">
+    <h2 id="finalTitle">One Last Thing...</h2>
+    <p class="subtitle" id="finalSub">Tap the gift 🎁</p>
+
+    <div class="gift-box" id="giftBox" onclick="openGift()">🎁</div>
+
+    <div id="finalMessage" style="display:none;">
+      <div style="font-size:3rem; margin-bottom:10px;">🧸❤️🐼</div>
+      <h2>Lots of love for you 💖</h2>
+      <p class="subtitle">Once again, Happy Birthday NARESHUU! Hope you loved your surprise!</p>
+      <button class="btn" onclick="location.reload()">🔄 Replay</button>
+    </div>
+  </div>
+
+  <script>
+    // Navigation
+    function nextScreen(screenNum) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + screenNum).classList.add('active');
+    }
+
+    // Balloon popping logic
+    let poppedCount = 0;
+    const balloonWords = [];
+
+    function popBalloon(id, word) {
+      const balloon = document.getElementById('b' + id);
+      if (balloon.style.visibility === 'hidden') return;
+
+      balloon.style.visibility = 'hidden';
+      poppedCount++;
+      balloonWords.push(word);
+
+      document.getElementById('revealedMessage').innerText = balloonWords.join(' ');
+
+      if (poppedCount === 4) {
+        document.getElementById('btnBalloonNext').style.display = 'inline-block';
+        triggerConfetti();
+      }
+    }
+
+    // Candle blow logic
+    function blowCandle() {
+      document.getElementById('candleFlame').style.display = 'none';
+      document.getElementById('candleTitle').innerText = 'Close your eyes & make a wish ✨';
+      document.getElementById('blowBtn').style.display = 'none';
+      document.getElementById('candleNext').style.display = 'inline-block';
+      triggerConfetti();
+    }
+
+    // Love Letter logic
+    function openLetter() {
+      document.getElementById('envelopeObj').style.display = 'none';
+      document.getElementById('letterSub').style.display = 'none';
+      document.getElementById('letterPaper').style.display = 'block';
+      document.getElementById('letterNext').style.display = 'inline-block';
+    }
+
+    // Final Gift open
+    function openGift() {
+      document.getElementById('giftBox').style.display = 'none';
+      document.getElementById('finalTitle').style.display = 'none';
+      document.getElementById('finalSub').style.display = 'none';
+      document.getElementById('finalMessage').style.display = 'block';
+      triggerConfetti();
+    }
+
+    // Simple Confetti effect
+    function triggerConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = Array.from({ length: 60 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        color: ['#ff5c8d', '#38bdf8', '#a855f7', '#facc15'][Math.floor(Math.random() * 4)],
+        size: Math.random() * 8 + 4,
+        speed: Math.random() * 3 + 2
+      }));
+
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.y += p.speed;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+      }
+
+      let interval = setInterval(render, 20);
+      setTimeout(() => { clearInterval(interval); ctx.clearRect(0,0,canvas.width,canvas.height); }, 3000);
+    }
+  </script>
+</body>
+</html>
